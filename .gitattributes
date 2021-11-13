@@ -1,1 +1,1 @@
- *.* linguist-language=C
+*.htm linguist-detectable=false
