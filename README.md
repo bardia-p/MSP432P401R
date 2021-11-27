@@ -6,4 +6,7 @@ Principles of event-driven systems. Microcontroller organization. Development of
 <br> Using the polling for I/O
 
 [Demostration #2](https://youtu.be/D4Ch_uR1fvk)
-<br> Using IRQ handlers for Interrupts
+<br> Using IRQ handlers for interrupts
+
+[Demostration #3](https://youtu.be/uRdq7VK621A)
+<br> Using Timer A (16-bit) interrupt service request handler
