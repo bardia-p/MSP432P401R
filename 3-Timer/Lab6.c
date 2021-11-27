@@ -28,21 +28,21 @@ static volatile uint8_t currentLED;
 static volatile uint8_t paused;
 
 int main() {
-  // RED LED is selected by default
+    // RED LED is selected by default
 	currentLED = LED_RED;
 
-  // The system originally is not paused
+    // The system originally is not paused
 	paused = 0;
 	
-  // Disable the watchdog timer
+    // Disable the watchdog timer
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;
 
 	// Configure GPIO switchs and LEDs
 	config_switches();
 	config_leds();
 
-  // Configure interrupts
-  config_interrupts();
+    // Configure interrupts
+    config_interrupts();
 	
 	TA0CTL &= (uint16_t)(~((1<<5)|(1<<4)));     // Stop the timer
 	TA0CTL &= (uint16_t)(~(1<<0));              // Clear interrupt flag
@@ -145,22 +145,22 @@ Port 1 interrupt service request handler.
 void PORT1_IRQHandler(void){
 	static volatile uint16_t i = DELAY_VALUE;
 	
-	if (((P1IFG & (uint8_t)(1<<1)) != 0) || ((P1IFG & (uint8_t) (1<<4)) != 0)) {
+	if (((P1->IFG & (uint8_t)(1<<1)) != 0) || ((P1->IFG & (uint8_t) (1<<4)) != 0)) {
     // Debouncing the LEDs
     while (i--) {
 			__ASM volatile (""); // Delay loop contains some asm code placeholder
     }
 		
 		// Test for pin 3 interrupt flag
-		if ((P1IFG & (uint8_t)(1<<1)) != 0) {
+		if ((P1->IFG & (uint8_t)(1<<1)) != 0) {
             // Clearing the interrupt flag
-			P1IFG &= (uint8_t)~(1<<1);
+			P1->IFG &= (uint8_t)~(1<<1);
 
             // Button 1 toggles between LEDs
             // When the button is pressed, the currently selected LED retains its state
 			currentLED = (currentLED + 1) % 2;
-		} else if((P1IFG & (uint8_t) (1<<4)) != 0) {
-			P1IFG &= (uint8_t)~(1<<4);
+		} else if((P1->IFG & (uint8_t) (1<<4)) != 0) {
+			P1->IFG &= (uint8_t)~(1<<4);
 			
             // When paused, if LEDs were off, they should remain off
 			if (!paused) {
