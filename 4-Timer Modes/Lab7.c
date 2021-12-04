@@ -21,10 +21,10 @@ void config_TA1(void);
 void handleRGBState(void);
 
 int main(void) {	
-	// Stop watchdog timer.
+	// Stop watchdog timer
 	WDT_A -> CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;
 
-	//intializes LEDs.
+	//intializes LEDs
 	config_leds();
 	
 	// Configure Timer A0
@@ -48,10 +48,10 @@ int main(void) {
 	NVIC_ClearPendingIRQ(TA1_0_IRQn);
 	NVIC_EnableIRQ(TA1_0_IRQn);
 	
-	//Globally enable interrupts in CPU.
+	// Globally enable interrupts in CPU
 	__ASM("CPSIE I");
 	
-	// Turning the RED LED on initially. 
+	// Turning the RED LED on initially
 	P1->OUT |= (uint8_t)((1<<0));
 	
 	// Waiting for interrupts
@@ -66,7 +66,7 @@ int main(void) {
 Configure LEDs (P1.0 and P2.0, P2.1, P2.2) as outputs.
 */
 void config_leds() {	
-  /* LEDs P1.0 */
+  	/* LEDs P1.0 */
 	// Set function to GPIO
 	P1->SEL0 &= (uint8_t)(~(1<<0));
 	P1->SEL1 &= (uint8_t)(~(1<<0));
@@ -80,10 +80,10 @@ void config_leds() {
 	// Set default state of all pins to off
 	P1->OUT &= (uint8_t)(~(1<<0));
 
-  // Disable interrupts
+  	// Disable interrupts
 	P1->IE &= (uint8_t)(~(1<<0)); 
 
-  /* LEDs P2.0, P2.1, P2.2 */
+  	/* LEDs P2.0, P2.1, P2.2 */
 	// Set function to GPIO for all 3 pins
 	P2->SEL0 &= (uint8_t)(~((1<<0)|(1<<1)|(1<<2)));
 	P2->SEL1 &= (uint8_t)(~((1<<0)|(1<<1)|(1<<2)));
@@ -102,7 +102,7 @@ void config_leds() {
 Configure Timer A0.
 */
 void config_TA0(void) {
-  TA0CTL &= (uint16_t)(~((1<<5)|(1<<4)));     // Stop the timer
+  	TA0CTL &= (uint16_t)(~((1<<5)|(1<<4)));     // Stop the timer
 	TA0CTL &= (uint16_t)(~(1<<0));              // Clear interrupt flag TAIFG
 	TA0CCR0 = (uint16_t)(32768);             	// Holds the upper limit value 1s
 	TA0CTL |= (uint16_t)((1<<1));               // Interrupt enable TAIE
@@ -115,9 +115,9 @@ void config_TA0(void) {
 Configure Timer A1.
 */
 void config_TA1(void) {
-  TA1CTL &= (uint16_t)(~((1<<5)|(1<<4)));     // Stop the timer
+  	TA1CTL &= (uint16_t)(~((1<<5)|(1<<4)));     // Stop the timer
 	TA1CTL &= (uint16_t)(~(1<<0));              // Clear interrupt TAIFG
-	TA1CCR0 = (uint16_t)(3277);                // Holds the upper limit value 0.1s -> 32768/10 = 3277
+	TA1CCR0 = (uint16_t)(3277);                	// Holds the upper limit value 0.1s -> 32768/10 = 3277
 	TA1CTL |= (uint16_t)((1<<1));               // Interrupt enable count reaches CCR0
 	TA1CTL |= (uint16_t)((1<<4)|(1<<5));        // Up/down count Mode Control
 	TA1CTL |= (uint16_t)((1<<8));               // ACLK as source for timer -> 32.768 kHz
@@ -157,7 +157,7 @@ void TA1_0_IRQHandler(void) {
 }
 
 /*
-RGB_LED has 8 states, helper function to handle bitwise clearing and setting
+RGB_LED has 8 states, helper function to handle bitwise clearing and setting.
 */
 void handleRGBState(void) {
 	volatile uint8_t count = (P2->OUT & RGB_LED_MASK);
