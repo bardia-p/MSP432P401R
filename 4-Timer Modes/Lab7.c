@@ -127,7 +127,7 @@ void config_TA1(void) {
 /*
 Timer A interrupt request handler.
 */
-void TA0_N_IRQHandler(void){
+void TA0_N_IRQHandler(void) {
 	// Clear the interrupt flag
 	TA0CTL &= (uint16_t)(~(1<<0));
 	
@@ -138,7 +138,7 @@ void TA0_N_IRQHandler(void){
 /*
 Handle when Timer A1 reaches 0.
 */
-void TA1_N_IRQHandler(void){
+void TA1_N_IRQHandler(void) {
 	// Clear the interrupt flag
 	TA1CTL &= (uint16_t)(~(1<<0));
 	handleRGBState();
